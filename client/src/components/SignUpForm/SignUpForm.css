@@ -1,0 +1,135 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.container{
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 60px;
+}
+.content{
+    flex-basis: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: white;
+}
+.login{
+    width: 800px;
+    min-height: 400px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: white;
+    display: inline-flex;
+}
+.content img{
+    width: 100%;
+    height: 100%;
+}
+.loginform{
+    flex-basis: 50%;
+    background: white;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-top: 20px;
+}
+.register-link p a {
+    color: #231695;
+    text-decoration: none;
+    font-weight: 600;
+}
+.register-link p{
+    color:black;
+    margin-left: 75px;
+}
+.register-link a:hover{
+    text-decoration: underline;
+} 
+.container button{
+    width: 200px;
+    height: 45px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    color:white ;
+    font-weight: 700;
+    margin-left: 80px;
+    background-color: #231695;
+}
+.container .register-link{
+    font-size: 14px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+.input-box .icon{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 50px;
+}
+
+  .container .forgot{
+    display: flex;
+    justify-content:right;
+    font-size: 14px;
+    margin: -15px 0 20px;
+}
+
+  .forgot a{
+    color: #0f0569;
+    text-decoration: none;
+}
+  .forgot a:hover{
+    text-decoration: underline;
+}
+.loginform h1 {
+    font-size: 36px;
+    text-align: center;
+    padding-left: 85px;
+    color:#231695;
+  }
+  
+  .loginform h2 {
+    font-size: 17px;
+    text-align: center;
+    padding-left: 85px;
+    color:rgb(66, 64, 75);
+  }
+  .container .input-box{
+    position: relative;
+    width: 430px;
+    height: 50px;
+    margin: 30px 0;
+    padding-left: 85px;
+    color:rgb(66, 64, 75);
+}
+  .input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    border-radius: 40px;
+    border: 2px solid;
+    font-size: 16px;
+    padding: 20px 45px 20px 20px;
+}
+
+  .input-box input::placeholder{
+    color: black;
+}
+  .input-box .icon{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+}
+
+

@@ -1,0 +1,137 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+  .custom-container{
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 60px;
+  }
+  .custom-content{
+    flex-basis: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: white;
+  }
+  .custom-login{
+    width: 800px;
+    min-height: 400px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: white;
+    display: inline-flex;
+  }
+  .content img{
+    width: 100%;
+    height: 100%;
+  }
+  .custom-loginform{
+    flex-basis: 50%;
+    background: white;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 60px;
+  }
+  
+  .custom-register-link p a {
+    color: #231695;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .custom-register-link p{
+    color:black;
+    margin-left: 75px;
+  }
+  .custom-register-link a:hover{
+    text-decoration: underline;
+  } 
+  .custom-container button{
+    width: 200px;
+    height: 45px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    color:white ;
+    font-weight: 700;
+    margin-left: 80px;
+    background-color: #231695;
+  }
+  .custom-container .register-link{
+    font-size: 14px;
+    text-align: center;
+    margin: 20px 0 15px;
+  }
+  .custom-input-box .icon{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 50px;
+  }
+  
+  .custom-container .forgot{
+    display: flex;
+    justify-content:right;
+    font-size: 14px;
+    margin: -15px 0 20px;
+  }
+  
+  .custom-forgot a{
+    color: #231695;
+    text-decoration: none;
+  }
+  .custom-forgot a:hover{
+    text-decoration: underline;
+  }
+  .custom-loginform h1 {
+    font-size: 36px;
+    text-align: center;
+    padding-left: 85px;
+    color:#231695;
+  }
+  
+  .custom-loginform h2 {
+    font-size: 17px;
+    text-align: center;
+    padding-left: 85px;
+    color:rgb(66, 64, 75);
+  }
+  .custom-container .input-box{
+    position: relative;
+    width: 430px;
+    height: 50px;
+    margin: 30px 0;
+    padding-left: 85px;
+    color:rgb(66, 64, 75);
+  }
+  .custom-input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    border-radius: 40px;
+    border: 2px solid;
+    font-size: 16px;
+    padding: 20px 45px 20px 20px;
+  }
+  
+  .custom-input-box input::placeholder{
+    color: black;
+  }
+  .custom-input-box .icon{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+  }
+  
+  
+  
