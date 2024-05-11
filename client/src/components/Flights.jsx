@@ -119,6 +119,10 @@ export default function Flights() {
       <div>
         <Search />
         <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </div>
     )
 }

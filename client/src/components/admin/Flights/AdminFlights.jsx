@@ -39,7 +39,7 @@ export default function AdminCard() {
                         <div className="flex justify-between items-center">
                             <h2 className="text-xl font-semibold">{flight.flightName}</h2>
                             <div className="flex justify-between items-center">
-                                <Link to={`/edit/${flight._id}`} className="inline-block">
+                                <Link to={`/editFlight/${flight._id}`} className="inline-block">
                                     <button
                                         aria-label="Edit"
                                         className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 mr-3"
