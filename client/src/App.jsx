@@ -26,7 +26,7 @@ export default function App() {
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/car-rentals" element={<AdminCar />} />
           <Route path="/addcar" element={<Addcar />} />
-          <Route path="/editCar" element={<EditCar />} />
+          <Route path="/editCar/:id" element={<EditCar />} />
         </Routes>
     </Router>
   );

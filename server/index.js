@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const FlightModel = require('./models/Flight.js')
-
+const CarModel=require('./models/Cars.js')
 
 
 const app = express();
@@ -56,6 +56,52 @@ app.delete('/flights/:id', async (req, res) => {
         res.status(204).send(); 
     } catch (error) {
         console.error('Error deleting flight:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/addNewCar', async (req,res) => { 
+    const {type,price,location,seats,bags,days,date,photo} = req.body;
+        CarModel.create({type,price,location,seats,bags,days,date,photo})
+        .then(cars => {res.json(cars);})
+        .catch(err => res.json(err))      
+});
+//get cars
+app.get('/car-rentals', async (req, res) => {
+    try {
+        const cars = await CarModel.find();
+        res.json(cars);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+//edit Cars
+app.get('/car-rentals/:id', async (req, res) => {
+    try {
+        const cars = await CarModel.findById(req.params.id);
+        res.json(cars);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.put('/car-rentals/:id', async (req, res) => {
+    const carId = req.params.id;
+    try {
+        const updatedcar = await CarModel.findByIdAndUpdate(carId,req.body,{ new: true });
+        res.json(updatedcar);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+//delete Flight
+app.delete('/car-rentals/:id', async (req, res) => {
+    const carId = req.params.id;
+    try {
+        await CarModel.findByIdAndDelete(carId);
+        res.status(204).send(); 
+    } catch (error) {
+        console.error('Error deleting Car:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

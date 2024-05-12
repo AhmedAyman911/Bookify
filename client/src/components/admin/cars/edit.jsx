@@ -7,14 +7,14 @@ export default function EditCar() {
     const navigateTo = useNavigate();
 
     const [formData, setFormData] = useState({
-        flightName: '',
-        date: '',
-        departureTime: '',
-        arrivalTime: '',
-        from: '',
-        to: '',
+        type: '',
         price: '',
-        photo: ''
+        location: '',
+        seats: '',
+        bags: '',
+        days: '',
+        date: '',
+        photo:''
     });
     const [loading, setLoading] = useState(true);
 
@@ -26,33 +26,33 @@ export default function EditCar() {
         }));
     };
 
-    const fetchFlightData = async () => {
+    const fetchCarData = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/flights/${id}`);
+            const response = await axios.get(`http://localhost:3001/car-rentals/${id}`);
             setFormData(response.data);
-            const flightData = response.data;
-            const datePart = flightData.date.split('T')[0];
+            const Data = response.data;
+            const datePart = Data.date.split('T')[0];
             setFormData(prevState => ({
                 ...prevState,
                 date: datePart
             }));
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching flight:', error);
+            console.error('Error fetching car:', error);
         }
     };
 
     useEffect(() => {
-        fetchFlightData(id);
+        fetchCarData(id);
     },[id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3001/flights/${id}`, formData);
-            navigateTo('/flights');
+            await axios.put(`http://localhost:3001/car-rentals/${id}`, formData);
+            navigateTo('/car-rentals');
         } catch (error) {
-            console.error('Error updating flight:', error);
+            console.error('Error updating car:', error);
         }
     };
 
@@ -66,12 +66,12 @@ export default function EditCar() {
             <div className="mb-4">
                 <label htmlFor="flightName" className="block text-sm font-medium text-gray-700 m-2 ml-1">Car Type:</label>
                 <input
-                    type="text"
-                    id="flightName"
-                    name="flightName"
-                    value={formData.flightName}
-                    onChange={handleChange}
-                    required 
+                     type="text"
+                     id="CarType"
+                     name="type"
+                     value={formData.type}
+                     onChange={handleChange}
+                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
                 />
             </div>
@@ -89,12 +89,12 @@ export default function EditCar() {
                 />
             </div>
             <div className="mb-4">
-                <label htmlFor="price" className="block text-sm font-medium text-gray-700">seats:</label>
+                <label className="block text-sm font-medium text-gray-700">seats:</label>
                 <input
-                    type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
+                     type="number"
+                     id="seats"
+                     name="seats"
+                     value={formData.seats}
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -104,9 +104,9 @@ export default function EditCar() {
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700">Bags:</label>
                 <input
                     type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
+                    id="Bags"
+                    name="bags"
+                    value={formData.bags}
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -116,9 +116,9 @@ export default function EditCar() {
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700">Days:</label>
                 <input
                     type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
+                    id="Days"
+                    name="days"
+                    value={formData.days}
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -128,9 +128,9 @@ export default function EditCar() {
                 <label htmlFor="to" className="block text-sm font-medium text-gray-700">Location:</label>
                 <input
                     type="text"
-                    id="to"
-                    name="to"
-                    value={formData.to}
+                    id="price"
+                    name="location"
+                    value={formData.location}
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"

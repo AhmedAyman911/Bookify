@@ -6,13 +6,13 @@ export default function Addcar() {
     const navigateTo  = useNavigate();
 
     const [formData, setFormData] = useState({
-        flightName: '',
-        date: '',
-        departureTime: '',
-        arrivalTime: '',
-        from: '',
-        to: '',
+        type: '',
         price: '',
+        location: '',
+        seats: '',
+        bags: '',
+        days: '',
+        date: '',
         photo:''
     });
 
@@ -26,21 +26,21 @@ export default function Addcar() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/addNewFlight', formData)
-             .then(result => {console.log(result);navigateTo('/flights');})
+        axios.post('http://localhost:3001/addNewCar', formData)
+             .then(result => {console.log(result);navigateTo('/car-rentals');})
              .catch(err => console.log(err));
     };
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 bg-white p-8 rounded shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Flight Information</h2>
+            <h2 className="text-2xl font-semibold mb-4">Car Information</h2>
             <div className="mb-4">
                 <label htmlFor="flightName" className="block text-sm font-medium text-gray-700 m-2 ml-1">Car Type:</label>
                 <input
                     type="text"
-                    id="flightName"
-                    name="flightName"
-                    value={formData.flightName}
-                    placeholder="Egyptair MS912"
+                    id="CarType"
+                    name="type"
+                    value={formData.type}
+                    placeholder="Nissan Sunny"
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -63,10 +63,10 @@ export default function Addcar() {
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700">Seats:</label>
                 <input
                     type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
-                    placeholder="999"
+                    id="seats"
+                    name="seats"
+                    value={formData.seats}
+                    placeholder="4"
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -76,10 +76,10 @@ export default function Addcar() {
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700">Bags:</label>
                 <input
                     type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
-                    placeholder="999"
+                    id="Bags"
+                    name="bags"
+                    value={formData.bags}
+                    placeholder="2"
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -89,10 +89,10 @@ export default function Addcar() {
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700">Days:</label>
                 <input
                     type="number"
-                    id="price"
-                    name="price"
-                    value={formData.price}
-                    placeholder="999"
+                    id="Days"
+                    name="days"
+                    value={formData.days}
+                    placeholder="3"
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
@@ -103,8 +103,8 @@ export default function Addcar() {
                 <input
                     type="text"
                     id="price"
-                    name="Location"
-                    value={formData.price}
+                    name="location"
+                    value={formData.location}
                     placeholder="cairo"
                     onChange={handleChange}
                     required 
@@ -118,7 +118,7 @@ export default function Addcar() {
                     id="price"
                     name="price"
                     value={formData.price}
-                    placeholder="999"
+                    placeholder="1200"
                     onChange={handleChange}
                     required 
                     className="shadow-sm border-b border-blue-300 border-gray-300 text-md focus:outline-none focus:ring-1 focus:rounded focus:border-blue-400 block w-full p-2.5"
