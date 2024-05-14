@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AdminCard from './components/admin/Flights/AdminFlights';
+/*import AdminCard from './components/admin/Flights/AdminFlights';*/
 import EditFlight from './components/admin/Flights/edit';
 import Home from './components/home/Home';
-/*import Flights from './components/Flights';*/
+import Flights from './components/Flights';
 import Hotels from './components/List/List';
-/*import CarRentals from './components/CarRentals';*/
+import CarRentals from './components/CarRentals';
 import NavBar from './components/navBar';
 import AddFlight from './components/admin/Flights/add';
 import Login from './components/LoginForm/LoginForm';
 import Signup from './components/SignUpForm/SignUpForm'
-import AdminCar from './components/admin/cars/AdminCars';
+/*import AdminCar from './components/admin/cars/AdminCars';*/
 import Addcar from './components/admin/cars/add';
 import EditCar from './components/admin/cars/edit';
 export default function App() {
@@ -22,9 +22,9 @@ export default function App() {
           <Route path="/editFlight/:id" element={<EditFlight />} />
           <Route path="/addFlight" element={<AddFlight />} />
           <Route path="/Login" element={<Login />} />
-          <Route path="/flights" element={<AdminCard />} />
+          <Route path="/flights" element={<Flights/>} />
           <Route path="/hotels" element={<Hotels />} />
-          <Route path="/car-rentals" element={<AdminCar />} />
+          <Route path="/car-rentals" element={<CarRentals />} />
           <Route path="/addcar" element={<Addcar />} />
           <Route path="/editCar/:id" element={<EditCar />} />
         </Routes>
