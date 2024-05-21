@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const FlightModel = require('./models/Flight.js')
 const CarModel = require('./models/Cars.js')
+const bcrypt = require('bcrypt')
+const UserModel = require('./models/User.js')
+const jwt = require('jsonwebtoken');
 
 
 const app = express();
@@ -11,6 +14,68 @@ app.use(cors());
 
 //database connection
 mongoose.connect("mongodb+srv://learn:learn@cluster0.zzk56ve.mongodb.net/?retryWrites=true&w=majority")
+
+app.post('/register', async (req, res) => {
+
+    const { name, password, email } = req.body;
+    bcrypt.hash(password, 10)
+        .then(hash => {
+            UserModel.create({ name, password: hash, email })
+                .then(users => { res.json(users); })
+                .catch(err => res.json(err))
+        })
+
+});
+
+app.post('/login', async (req, res) => {
+    const { password, email } = req.body;
+    try {
+        const user = await UserModel.findOne({ email: email });
+        if (!user) {
+            return res.status(404).json("No user found");
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json("Incorrect password");
+        }
+        const token = jwt.sign(
+            { id: user._id, name: user.name },
+            'your_jwt_secret', 
+            { expiresIn: '1h' }
+        );
+
+        res.json({
+            message: 'Logged in successfully!',
+            token,
+            user: {
+                id: user._id,
+                username: user.name,
+                email: user.email
+            }
+        });
+    } catch (err) {
+        res.status(500).json("Server error");
+    }
+});
+app.get('/get-token', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ message: 'No token found' });
+    }
+    // Optionally, you can verify and decode the token here
+    res.json({ token });
+});
+
+app.get('/get-token', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ message: 'No token found' });
+    }
+    // Optionally, you can verify and decode the token here
+    res.json({ token });
+});
+
 
 // API endpoint to get combined unique values from "from" and "to" fields
 app.get('/combined-unique', async (req, res) => {
@@ -33,17 +98,17 @@ app.get('/Searchflights', async (req, res) => {
     try {
         let query = {};
         const { from, to } = req.query;
-        
+
         // Check if 'from' parameter is specified
         if (from && from !== 'any') {
             query.from = from;
         }
-        
+
         // Check if 'to' parameter is specified
         if (to && to !== 'any') {
             query.to = to;
         }
-        
+
         const flights = await FlightModel.find(query);
         res.json(flights);
     } catch (err) {
@@ -196,13 +261,10 @@ app.get('/SearchCars', async (req, res) => {
     try {
         let query = {};
         const { type, days, location, date } = req.query;
-        
-        // Check if 'from' parameter is specified
+
         if (type && type !== 'any') {
             query.type = type;
         }
-        
-        // Check if 'to' parameter is specified
         if (days && days !== 'any') {
             query.days = days;
         }

@@ -1,8 +1,34 @@
 import { FaLock, FaRegUser } from "react-icons/fa";
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-    return (
+    const navigate = useNavigate();
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:3001/login', { password, email })
+            .then(response => {
+                const { token, user } = response.data;
+                if (token && user) {
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('user', JSON.stringify(user));
+                    navigate("/");
+                    window.location.reload();
+                } else {
+                    console.error('Token or user data missing in response');
+                }
+            })
+            .catch(error => console.error('Error logging in:', error));
+    };
+
+
+
+
+    return (
         <div className="bg-white flex justify-center items-center h-screen">
             <div className=" bg-white flex rounded-3xl w-2/5">
                 <div className="flex-1 flex justify-center items-center">
@@ -13,7 +39,7 @@ const LoginForm = () => {
                     />
                 </div>
                 <div className="flex-1 flex justify-center items-center">
-                    <form className="p-8 custom-loginform">
+                    <form onSubmit={handleSubmit} className="p-8 custom-loginform">
                         <h1 className="text-5xl text-blue-900 mb-2 font-bold text-center">Welcome Back!</h1>
                         <h2 className="text-xl text-gray-700 mb-8 font-bold text-center">
                             Please enter your login details to access your account
@@ -21,7 +47,9 @@ const LoginForm = () => {
                         <div className="relative mb-6 flex items-center justify-center">
                             <input
                                 type="email"
-                                placeholder="Enter your Email"
+                                placeholder="@email.com"
+                                value={email}
+                                onChange={(ev) => setEmail(ev.target.value)}
                                 className="w-80 h-12 px-4 bg-transparent outline-none border-2 border-gray-900 rounded-full" // Adjusted padding
                                 required
                             />
@@ -31,8 +59,10 @@ const LoginForm = () => {
 
                         <div className="relative mb-2 flex items-center justify-center">
                             <input
-                                type="Password"
-                                placeholder="Enter your Password"
+                                type="password"
+                                placeholder="type password"
+                                value={password}
+                                onChange={(ev) => setPassword(ev.target.value)}
                                 className="w-80 h-12 px-4 bg-transparent outline-none border-2 border-gray-900 rounded-full "
                                 required
                             />
@@ -44,16 +74,17 @@ const LoginForm = () => {
                             </a>
                         </div>
                         <div className="flex items-center justify-center">
-                        <button
-                            type="submit"
-                            className="w-1/3 h-12 bg-blue-900 text-white font-semibold rounded-full"
-                        >
-                            Login
-                        </button></div>
+                            <button
+                                type="submit"
+                                className="w-1/3 h-12 bg-blue-900 text-white font-semibold rounded-full"
+                            >
+                                Login
+                            </button>
+                        </div>
                         <div className="mt-6 text-center">
                             <p>
                                 Don`t have an account?{" "}
-                                <a href="#" className="text-blue-900 font-semibold hover:underline">
+                                <a href="./signup" className="text-blue-900 font-semibold hover:underline">
                                     Sign Up
                                 </a>
                             </p>

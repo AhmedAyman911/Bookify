@@ -1,19 +1,49 @@
 import { IoIosAirplane, IoIosBed, IoIosCar, IoMdHome } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+
 export default function NavBar() {
-    
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('home');
     const [login, setLogin] = useState('no');
     const [isOpen, setIsOpen] = useState(false);
+    const [username, setUsername] = useState('');
+
+    // Function to decode the JWT token and extract the username
+    const decodeToken = (token) => {
+        try {
+            const decoded = jwtDecode(token);
+            return decoded;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    };
     useEffect(() => {
+        // Check if token exists in localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Decode the token and extract the username
+            const decodedToken = decodeToken(token);
+            
+            if (decodedToken) {
+                setUsername(decodedToken.name);
+                setLogin('yes');
+            }else{console.log("heeeeeeeeeeeelp")}
+        }
         const location = window.location.pathname.replace("/", "");
         setActiveTab(location || "home");
     }, []);
 
     const handleSignOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setLogin('no');
         setIsOpen(!isOpen);
+        navigate("/");
+        window.location.reload();
     };
     return (
         <nav className="bg-white shadow-lg">
@@ -24,7 +54,7 @@ export default function NavBar() {
                     </div>
                     {login === 'no' ? <div className="flex items-center">
                         <Link to="/Login">
-                            <button /*onClick={() => setLogin('yes')}*/ className="bg-white-500 hover:bg-gray-200 text-blue-500 font-semibold px-4 py-2 rounded mr-4">Log In</button>
+                            <button className="bg-white-500 hover:bg-gray-200 text-blue-500 font-semibold px-4 py-2 rounded mr-4">Log In</button>
                         </Link>
                         <Link to="/signup">
                             <button onClick={() => ('yes')} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">Sign Up</button>
@@ -38,13 +68,12 @@ export default function NavBar() {
                                 alt="user photo"
                                 onClick={() => setIsOpen(!isOpen)}
                             />
-                            Username
-
+                            <span>{username}</span>
                         </div>
                     }
                 </div>
                 {isOpen && (
-                    <div className="origin-bottom-center absolute right-40 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <div className="z-50 origin-bottom-center absolute right-40 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <div className="py-1" role="none">
                             <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" >
                                 test

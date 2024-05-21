@@ -18,7 +18,7 @@ import car1Image from "../../assets/car1.avif";
 import car2Image from "../../assets/car2.webp";
 import car4Image from "../../assets/car2.jpeg";
 import car5Image from "../../assets/car5.jpg";
-
+//import NavBar from "../navBar";
 const Header = () => {
     
     const [selectedDate, setSelectedDate] = useState("");
@@ -44,6 +44,7 @@ const Header = () => {
     };
 
     return (
+        <>
         <div id="custom-header" className="relative">
             <div id="custom-MainRect" className="relative bg-blue-900 p-8 flex justify-between items-center text-white">
         <div>
@@ -427,7 +428,7 @@ const Header = () => {
     </footer>
 
 
-        </div>
+        </div></>
     );
 };
 
