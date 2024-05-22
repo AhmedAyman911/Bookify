@@ -1,26 +1,66 @@
-import { FaShoppingCart } from 'react-icons/fa';
-import { useState } from 'react';
+import { FaShoppingCart, FaTrash } from 'react-icons/fa';
+import { useState,useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+import { Link } from 'react-router-dom';
 const CartButton = () => {
+
+  const [uid, setUserid] = useState('');
+  // Function to decode the JWT token and extract the username
+ const decodeToken = (token) => {
+  try {
+      const decoded = jwtDecode(token);
+      return decoded;
+  } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+  }
+};
+useEffect(() => {
+  // Check if token exists in localStorage
+  const token = localStorage.getItem('token');
+  if (token) {
+      // Decode the token and extract the username
+      const decodedToken = decodeToken(token);
+      
+      if (decodedToken) {
+        setUserid(decodedToken.id);
+      }else{console.log("heeeeeeeeeeeelp")}
+  }
+}, []);
+
+
+
+
+
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
   const toggleCart = () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
-      fetchCart();
+      fetchCart(uid);
     }
   };
 
-  const fetchCart = async () => {
+  const fetchCart = async (uid) => {
     try {
-      const response = await axios.get('http://localhost:3001/cart');
-      setData(response.data);
+        const response = await axios.get(`http://localhost:3001/cart?uid=${uid}`);
+        setData(response.data);
     } catch (error) {
-      console.error('Error fetching flights:', error);
+        console.error('Error fetching cart items:', error);
     }
-  };
+};
+  const handleDelete = async (itemId) => {
+    try {
+        await axios.delete(`http://localhost:3001/cart/${itemId}`);
+        setData(prevReservations => prevReservations.filter(item => item._id !== itemId));
+    } catch (error) {
+        console.error('Error deleting item:', error);
+    }
+};
 
   return (
+    
     <div className="fixed bottom-4 right-4">
       <button
         className="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none"
@@ -36,17 +76,29 @@ const CartButton = () => {
               {data.map((item, index) => (
                 <div key={index} className="mb-4 bg-blue-100 p-2 rounded">
                   <p><strong>Item:</strong> {item.item}</p>
-                  <p><strong>Date:</strong> {new Date(item.date).toLocaleDateString()}</p>
+                  <div className="flex justify-between items-center">
+                    <p><strong>Date:</strong> {new Date(item.date).toLocaleDateString()}</p>
+                    <div>
+                      <button
+                        className="text-red-500 hover:text-red-700 mr-2 "
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </div>
                   <p><strong>Price:</strong> ${item.price}</p>
                 </div>
               ))}
+
             </>
           ) : (
             <p>No items in the cart.</p>
           )}
+          <Link to='/payment'>
           <button className="bg-blue-500 text-white w-full py-2 rounded-md hover:bg-blue-700">
             Proceed to Payment
-          </button>
+          </button></Link>
         </div>
       )}
     </div>

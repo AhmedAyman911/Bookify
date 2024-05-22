@@ -18,6 +18,7 @@ import AddHotels from './components/admin/AdminList/Add';
 import EditHotels from './components/admin/AdminList/Edit';
 import LoginAdmin from './components/admin/LoginFormAdmin'
 import HotelPage from './components/List/hotelPage'
+import Payment from './components/payment'
 export default function App() {
   return (
     <Router>
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/flights" element={<Flights/>} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/hotelPage" element={<HotelPage />} />
+          <Route path="/payment" element={<Payment/>} />
           {/*admin routes*/}
           <Route path="/LoginAdmin" element={<LoginAdmin />} />
           <Route path="/editFlight/:id" element={<EditFlight />} />

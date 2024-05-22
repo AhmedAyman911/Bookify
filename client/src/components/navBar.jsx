@@ -51,14 +51,14 @@ export default function NavBar() {
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center py-4">
                     <div className="flex items-center">
-                        <span className="text-2xl font-bold ml-2 hover:text-blue-500">Bookify.com</span>
+                        <span className="text-2xl font-bold ml-2 text-blue-700">Bookify.com</span>
                     </div>
                     {login === 'no' ? <div className="flex items-center">
                         <Link to="/Login">
-                            <button className="bg-white-500 hover:bg-gray-200 text-blue-500 font-semibold px-4 py-2 rounded mr-4">Log In</button>
+                            <button className="bg-white-500 hover:bg-gray-200 text-blue-700 font-semibold px-4 py-2 rounded mr-4">Log In</button>
                         </Link>
                         <Link to="/signup">
-                            <button onClick={() => ('yes')} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">Sign Up</button>
+                            <button onClick={() => ('yes')} className="bg-blue-700 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded">Sign Up</button>
                         </Link>
                     </div>
                         :
