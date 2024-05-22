@@ -27,7 +27,7 @@ export default function AddFlight() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:3001/addNewFlight', formData)
-             .then(result => {console.log(result);navigateTo('/flights');})
+             .then(result => {console.log(result);navigateTo('/adminFlights');})
              .catch(err => console.log(err));
     };
     return (

@@ -1,9 +1,20 @@
 import { useState, useEffect } from 'react';
-import "./List.css";
-import axios from 'axios'
+import "./AdminList.css";
+import axios from 'axios';
+import { MdModeEditOutline, MdDelete, MdAdd } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const List = () => {
   const [hotels, setHotels] = useState([]);
+
+  const handleDelete = async (hotelId) => {
+    try {
+      await axios.delete(`http://localhost:3001/adminHotels/${hotelId}`);
+      setHotels(prevHotels => prevHotels.filter(hotel => hotel._id !== hotelId));
+    } catch (error) {
+      console.error('Error deleting hotel:', error);
+    }
+  };
 
   useEffect(() => {
     axios.get('http://localhost:3001/getHotels')
@@ -12,8 +23,7 @@ const List = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center m-5">
-      <br/>
+    <div className='flex flex-col items-center m-5'>
       {hotels.map((hotel) => (
         <div key={hotel._id} className="List">
           <img
@@ -50,8 +60,19 @@ const List = () => {
             <div className="siDetailTexts">
               <span className="siPrice">{hotel.Price}</span>
               <span className="siTaxOp">{hotel.Tax}</span>
-              <button className="siCheckButton">See availability</button>
+              <div>
+              <div className="iconRow">
+              <div className="editIconContainer">
+              <Link to={`/editHotels/${hotel._id}`} className="">
+              <MdModeEditOutline className="edittt" />
+              </Link>
             </div>
+            <div className="deleteIconContainer" onClick={() => handleDelete(hotel._id)}>
+              <MdDelete className="deletee" />
+              </div>
+            </div>
+            </div>
+          </div>
           </div>
         </div>
       ))}
@@ -59,16 +80,17 @@ const List = () => {
   );
 };
 
-const ListContainer = () => {
+const ListContainer2 = () => {
   return (
     <div>
       <List />
-      {/* <List />
-      <List />
-      <List />
-      <List /> */}
+      <div className="addButtonContainer" >
+      <Link to="/addHotels" className="inline-block">
+      <MdAdd className="addButton"/>
+      </Link>
+      </div>
     </div>
   );
 };
 
-export default ListContainer;
+export default ListContainer2;

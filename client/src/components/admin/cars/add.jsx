@@ -27,7 +27,7 @@ export default function Addcar() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:3001/addNewCar', formData)
-             .then(result => {console.log(result);navigateTo('/car-rentals');})
+             .then(result => {console.log(result);navigateTo('/adminCar');})
              .catch(err => console.log(err));
     };
     return (
