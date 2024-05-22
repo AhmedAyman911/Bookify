@@ -1,7 +1,6 @@
 import { FaShoppingCart } from 'react-icons/fa';
 import { useState } from 'react';
 import axios from 'axios';
-
 const CartButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
