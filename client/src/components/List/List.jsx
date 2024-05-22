@@ -65,6 +65,11 @@ const List = () => {
     e.preventDefault();
     fetchFilteredData();
   };
+
+ 
+  const handleButtonClick = () => {
+    navigate('/hotelPage');
+  }; 
   return (
     <div>
       <div id="custom-header" className="relative">
