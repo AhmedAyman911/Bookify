@@ -11,6 +11,11 @@ const List = () => {
       .catch(err => console.log(err));
   }, []);
 
+
+ 
+  const handleButtonClick = () => {
+    navigate('/hotelPage');
+  }; 
   return (
     <div className="flex flex-col items-center m-5">
       <br/>
@@ -50,7 +55,7 @@ const List = () => {
             <div className="siDetailTexts">
               <span className="siPrice">{hotel.Price}</span>
               <span className="siTaxOp">{hotel.Tax}</span>
-              <button className="siCheckButton">See availability</button>
+              <button className="siCheckButton" onClick={handleButtonClick} >See availability</button>
             </div>
           </div>
         </div>
