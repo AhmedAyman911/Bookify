@@ -4,7 +4,10 @@ import { IoPersonOutline, IoLocationOutline } from "react-icons/io5";
 import { MdCardTravel } from "react-icons/md";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaCalendarDays } from "react-icons/fa6";
+import Cart from '../components/cart/cartt'
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+
 
 const SearchComponent = ({
   selectOption1,
@@ -38,7 +41,7 @@ const SearchComponent = ({
   }, []);
 
   return (
-    <div className="mx-auto bg-yellow-400 ">
+    <div className="mx-auto bg-blue-900 ">
       <br />
       <div className="max-w-3xl mx-auto bg-white rounded-xl overflow-hidden shadow-md flex justify-between">
         <div className="px-4 py-2">
@@ -110,6 +113,56 @@ SearchComponent.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 const Card = () => {
+  const [cart, setCart] = useState([]);
+  const [uid, setUserid] = useState('');
+  // Function to decode the JWT token and extract the username
+ const decodeToken = (token) => {
+  try {
+      const decoded = jwtDecode(token);
+      return decoded;
+  } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+  }
+};
+useEffect(() => {
+  // Check if token exists in localStorage
+  const token = localStorage.getItem('token');
+  if (token) {
+      // Decode the token and extract the username
+      const decodedToken = decodeToken(token);
+      
+      if (decodedToken) {
+        setUserid(decodedToken.id);
+      }else{console.log("heeeeeeeeeeeelp")}
+  }
+}, []);
+ //cart
+ const handleBookCar = (car) => {
+  const newCartItem = {
+    uid:uid,
+    item: car.type,
+    date: car.date,
+    price: car.price,
+  };
+
+  const updatedCart = [...cart, newCartItem];
+  setCart(updatedCart);
+  saveCartToBackend(updatedCart);
+};
+
+const saveCartToBackend = async (updatedCart) => {
+  try {
+    const result = await axios.post('http://localhost:3001/addtocart', updatedCart);
+    console.log('Save to backend result:', result);
+  } catch (err) {
+    console.log('Error saving to backend:', err);
+  }
+};  
+
+
+
+
   const [filteredData, setFilteredData] = useState([]);
   const [selectOption1, setSelectOption1] = useState('');
   const [selectOption2, setSelectOption2] = useState('');
@@ -197,7 +250,7 @@ const Card = () => {
                 <FaCalendarDays />
                 <p className="text-gray-600 ml-1">{new Date(car.date).toLocaleDateString()}</p>
               </div>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={()=>handleBookCar(car)}>
                 Book
               </button>
             </div>
@@ -214,6 +267,7 @@ export default function CarRentals() {
   return (
     <div>
       <Card />
+      <Cart/>
     </div>
   )
 }

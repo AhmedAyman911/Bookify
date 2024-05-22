@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import { GoArrowSwitch, GoArrowRight } from 'react-icons/go';
 import axios from 'axios';
-
+import Cart from '../components/cart/cartt'
+import { jwtDecode } from "jwt-decode";
+ 
 const SearchComponent = ({
   selectOption1,
   selectOption2,
@@ -19,7 +21,7 @@ const SearchComponent = ({
   }, []);
 
   return (
-    <div className="mx-auto bg-yellow-400">
+    <div className="mx-auto bg-blue-900">
       <br />
       <div className="max-w-xl mx-auto bg-white rounded-xl overflow-hidden shadow-md flex justify-between">
         <div className="px-4 py-2">
@@ -70,10 +72,35 @@ SearchComponent.propTypes = {
 };
 
 const Card = () => {
+  const [uid, setUserid] = useState('');
+  // Function to decode the JWT token and extract the username
+ const decodeToken = (token) => {
+  try {
+      const decoded = jwtDecode(token);
+      return decoded;
+  } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+  }
+};
+useEffect(() => {
+  // Check if token exists in localStorage
+  const token = localStorage.getItem('token');
+  if (token) {
+      // Decode the token and extract the username
+      const decodedToken = decodeToken(token);
+      
+      if (decodedToken) {
+        setUserid(decodedToken.id);
+      }else{console.log("heeeeeeeeeeeelp")}
+  }
+}, []);
+
 
   const [filteredData, setFilteredData] = useState([]);
   const [selectOption1, setSelectOption1] = useState('');
   const [selectOption2, setSelectOption2] = useState('');
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     fetchFlights();
@@ -103,6 +130,35 @@ const Card = () => {
     }
   };
 
+  //cart
+  const handleBookFlight = (flight) => {
+    if (!uid) {
+      console.log("User is not logged in. Please log in to book a flight.");
+      return;
+    }else{
+    const newCartItem = {
+      uid:uid,
+      item: flight.flightName,
+      date: flight.date,
+      price: flight.price,
+    };
+
+    const updatedCart = [...cart, newCartItem];
+    setCart(updatedCart);
+    saveCartToBackend(updatedCart);
+  }};
+
+  const saveCartToBackend = async (updatedCart) => {
+    try {
+      const result = await axios.post('http://localhost:3001/addtocart', updatedCart);
+      console.log('Save to backend result:', result);
+    } catch (err) {
+      console.log('Error saving to backend:', err);
+    }
+  };  
+
+  
+
   const handleSelectOption1Change = (e) => setSelectOption1(e.target.value);
   const handleSelectOption2Change = (e) => setSelectOption2(e.target.value);
 
@@ -126,7 +182,7 @@ const Card = () => {
           <div className="p-4">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">{flight.flightName}</h2>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={()=>handleBookFlight(flight)}>
                 Book
               </button>
             </div>
@@ -156,6 +212,7 @@ const Flights = () => {
   return (
     <div>
       <Card />
+      <Cart/>
     </div>
   );
 };

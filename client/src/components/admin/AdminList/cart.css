@@ -1,0 +1,178 @@
+body{
+    color:black;
+    cursor: pointer;
+}
+.YourCart{
+    font-size: 300%;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position:absolute;
+    top:5%;
+    left:7%;
+}
+.ctitems{
+    font-family:cursive;
+    position:absolute;
+    top:12%;
+    left:7%;
+    font-size: 120%;
+}
+.Hotel{
+    border: 1px solid rgb(203, 203, 203);
+    border-radius: 5px;
+    padding-top: 20px;
+    padding-right: 600px;
+    padding-bottom: 525px;
+    padding-left: 20px;
+    margin:20px;
+    position:absolute;
+    top:20%;
+    left:30%;
+    background-color: rgb(253, 246, 237);
+}
+.headresort{
+    position:absolute;
+    top:25%;
+    left:33%;
+    font-size: 20;
+}
+.stars{
+    position:absolute;
+    top:18.5%;
+    left:36%;
+}
+.hotelname{
+    position:absolute;
+    top:30%;
+    left:33%;
+    font-size: 23px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.address{
+    position:absolute;
+    top:35%;
+    left:33%;
+    font-size: 15px;
+}
+.number8{
+    position:absolute;
+    top:40%;
+    left:33%;
+}
+.wond{
+    position:absolute;
+    top:40.5%;
+    left:35.5%;
+}
+.wifi{
+    position:absolute;
+    top:46%;
+    left:33%;
+}
+.wififree{
+    position:absolute;
+    top:46.5%;
+    left:35.5%;
+}
+.parking{
+    position:absolute;
+    top:46.5%;
+    left:41%;
+}
+.parkingdet{
+    position:absolute;
+    top:46.5%;
+    left:43.5%;
+}
+.pool{
+    position:absolute;
+    top:46.5%;
+    left:48%;
+}
+.pooldet{
+    position:absolute;
+    top:46.5%;
+    left:50.5%;
+}
+.urbooking{
+    position:absolute;
+    top:53%;
+    left:33%;
+    font-size: 23px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.checkin{
+    position:absolute;
+    top:58%;
+    left:33%;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.checkindate{
+    position:absolute;
+    top:63%;
+    left:33%;
+    font-size: 17px;
+}
+.checkout{
+    position:absolute;
+    top:58%;
+    left:55%;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.checkoutdate{
+    position:absolute;
+    top:63%;
+    left:55%;
+    font-size: 17px;
+}
+.YouSelected{
+    position:absolute;
+    top:70%;
+    left:33%;
+    font-size: 23px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.YouSelecteddet{
+    position:absolute;
+    top:75%;
+    left:33%;
+    font-size: 18px;
+}
+.Res{
+    position:absolute;
+    top:80%;
+    left:33%;
+    font-size: 18px;
+}
+.Price{
+    position:absolute;
+    top:90%;
+    left:33%;
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.money{
+    position:absolute;
+    top:90.5%;
+    left:40%;
+    font-size: 27px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: underline;
+}
+.checkout-button {
+    position: absolute;
+    top: 90%;
+    left: 59%;
+    padding: 10px 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.checkout-button:hover {
+    background-color: #0056b3;
+}

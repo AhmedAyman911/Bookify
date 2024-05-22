@@ -50,7 +50,7 @@ export default function EditCar() {
         e.preventDefault();
         try {
             await axios.put(`http://localhost:3001/car-rentals/${id}`, formData);
-            navigateTo('/car-rentals');
+            navigateTo('/adminCar');
         } catch (error) {
             console.error('Error updating car:', error);
         }

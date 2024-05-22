@@ -1,9 +1,9 @@
-import { FaLock, FaRegUser } from "react-icons/fa";
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AdminImage from "../../assets/5124556.jpg";
 
-const LoginForm = () => {
+const LoginFormAdmin = () => {
     const navigate = useNavigate();
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -14,37 +14,33 @@ const LoginForm = () => {
             .then(response => {
                 const { token, user } = response.data;
                 if (token && user) {
-                    if (user.username !== 'admin') {
+                    if (user.username === 'admin') {
                     localStorage.setItem('token', token);
                     localStorage.setItem('user', JSON.stringify(user));
                     navigate("/");
                     window.location.reload();
                   }
                 } else {
-                    console.error('Token or user data missing in response');
+                    console.error('Token or admin data missing in response');
                 }
             })
             .catch(error => console.error('Error logging in:', error));
     };
 
-
-
-
     return (
         <div className="bg-white flex justify-center items-center h-screen">
-            <div className=" bg-white flex rounded-3xl w-2/5">
-                <div className="flex-1 flex justify-center items-center">
-                    <img
-                        src="https://i.pinimg.com/564x/34/bb/d7/34bbd73293f74527e4440a746645d475.jpg"
-                        alt="Image"
-                        className="w-full h-auto rounded-l-3xl"
-                    />
-                </div>
+            <img
+                src={AdminImage}
+                alt="Cartoon Businesswoman Character"
+                className="w-1/4 h-3/4 rounded-l-3xl"
+            />
+            <div className="bg-gray-200 flex rounded-3xl w-2/5 border-gray-400 border-2">
                 <div className="flex-1 flex justify-center items-center">
                     <form onSubmit={handleSubmit} className="p-8 custom-loginform">
-                        <h1 className="text-5xl text-blue-900 mb-2 font-bold text-center">Welcome Back!</h1>
+                        <h1 className="text-5xl text-blue-900 mb-2 font-bold text-center">Welcome Admin!</h1>
+                        <br></br>
                         <h2 className="text-xl text-gray-700 mb-8 font-bold text-center">
-                            Please enter your login details to access your account
+                            Enter your credentials to manage the system
                         </h2>
                         <div className="relative mb-6 flex items-center justify-center">
                             <input
@@ -55,7 +51,6 @@ const LoginForm = () => {
                                 className="w-80 h-12 px-4 bg-transparent outline-none border-2 border-gray-900 rounded-full" // Adjusted padding
                                 required
                             />
-                            <FaRegUser className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
                         </div>
 
 
@@ -68,11 +63,10 @@ const LoginForm = () => {
                                 className="w-80 h-12 px-4 bg-transparent outline-none border-2 border-gray-900 rounded-full "
                                 required
                             />
-                            <FaLock className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
                         </div>
-                        <div className="mb-6 text-right flex items-center justify-end">
+                        <div className="mb-6 text-right flex items-center justify-center">
                             <a href="#" className="text-blue-900 hover:underline">
-                                Forgot Password?
+                                Forgot Password? Go Back To Your Mentor
                             </a>
                         </div>
                         <div className="flex items-center justify-center">
@@ -83,26 +77,11 @@ const LoginForm = () => {
                                 Login
                             </button>
                         </div>
-                        <div className="mt-6 text-center">
-                            <p>
-                                Don`t have an account?{" "}
-                                <a href="./signup" className="text-blue-900 font-semibold hover:underline">
-                                    Sign Up
-                                </a>
-                            </p>
-                            <br></br>
-                            <p>
-                                Login as a admin user? {" "}
-                                <a href="/LoginAdmin" className="text-blue-900 font-semibold hover:underline">
-                                Log In
-                                </a>
-
-                            </p>
-                        </div>
+                        
                     </form>
                 </div>
             </div>
         </div>
     );
 }
-export default LoginForm;
+export default LoginFormAdmin;

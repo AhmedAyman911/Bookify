@@ -1,6 +1,6 @@
 import { IoIosAirplane, IoIosBed, IoIosCar, IoMdHome } from "react-icons/io";
 import { Link } from 'react-router-dom';
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ export default function NavBar() {
     const [login, setLogin] = useState('no');
     const [isOpen, setIsOpen] = useState(false);
     const [username, setUsername] = useState('');
-
+    const [admin, setAdmin] = useState('no');
     // Function to decode the JWT token and extract the username
     const decodeToken = (token) => {
         try {
@@ -27,11 +27,12 @@ export default function NavBar() {
         if (token) {
             // Decode the token and extract the username
             const decodedToken = decodeToken(token);
-            
+
             if (decodedToken) {
                 setUsername(decodedToken.name);
                 setLogin('yes');
-            }else{console.log("heeeeeeeeeeeelp")}
+                if (decodedToken.name === 'admin') { setAdmin('yes'); }
+            } else { console.log("heeeeeeeeeeeelp") }
         }
         const location = window.location.pathname.replace("/", "");
         setActiveTab(location || "home");
@@ -75,45 +76,68 @@ export default function NavBar() {
                 {isOpen && (
                     <div className="z-50 origin-bottom-center absolute right-40 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <div className="py-1" role="none">
-                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" >
-                                test
-                            </button>
-                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" >
-                                test
-                            </button>
-                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" onClick={() => handleSignOut()}>
+                            <button className="block w-full text-left px-4 py-2 text-sm text-blue-700 hover:bg-blue-100 hover:text-gray-900" role="menuitem" onClick={() => handleSignOut()}>
                                 Sign Out
                             </button>
                         </div>
                     </div>
                 )}
                 <div className="flex justify-between py-2">
-                    <ul className="flex space-x-6">
-                        <li>
-                            <Link to="/" onClick={() => setActiveTab('home')}
-                                className={activeTab === 'home' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
-                                <IoMdHome className="mr-1" /> Home
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/hotels" onClick={() => setActiveTab('hotels')}
-                                className={activeTab === 'hotels' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
-                                <IoIosBed className="mr-1" /> Hotels
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/flights" onClick={() => setActiveTab('flights')}
-                                className={activeTab === 'flights' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
-                                <IoIosAirplane className="mr-1" /> Flights
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/car-rentals" onClick={() => setActiveTab('car-rentals')}
-                                className={activeTab === 'car-rentals' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
-                                <IoIosCar className="mr-1" /> Car Rentals
-                            </Link>
-                        </li>
-                    </ul>
+                    {admin === 'yes' ?
+                        <ul className="flex space-x-6">
+                            <li>
+                                <Link to="/" onClick={() => setActiveTab('home')}
+                                    className={activeTab === 'home' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoMdHome className="mr-1" /> Home
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/adminHotels" onClick={() => setActiveTab('adminHotels')}
+                                    className={activeTab === 'adminHotels' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoIosBed className="mr-1" /> Hotels
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/adminFlights" onClick={() => setActiveTab('adminFlights')}
+                                    className={activeTab === 'adminFlights' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoIosAirplane className="mr-1" /> Flights
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/adminCar" onClick={() => setActiveTab('adminCar')}
+                                    className={activeTab === 'adminCar' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoIosCar className="mr-1" /> Car Rentals
+                                </Link>
+                            </li>
+                        </ul>
+                        :
+                        <ul className="flex space-x-6">
+
+                            <li>
+                                <Link to="/" onClick={() => setActiveTab('home')}
+                                    className={activeTab === 'home' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoMdHome className="mr-1" /> Home
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/hotels" onClick={() => setActiveTab('hotels')}
+                                    className={activeTab === 'hotels' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoIosBed className="mr-1" /> Hotels
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/flights" onClick={() => setActiveTab('flights')}
+                                    className={activeTab === 'flights' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoIosAirplane className="mr-1" /> Flights
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/car-rentals" onClick={() => setActiveTab('car-rentals')}
+                                    className={activeTab === 'car-rentals' ? 'flex items-center text-blue-700 hover:text-blue-500' : 'flex items-center text-grey-700 hover:text-blue-500'}>
+                                    <IoIosCar className="mr-1" /> Car Rentals
+                                </Link>
+                            </li>
+                        </ul>}
                 </div>
             </div>
         </nav>

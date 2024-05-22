@@ -50,7 +50,7 @@ export default function EditFlight() {
         e.preventDefault();
         try {
             await axios.put(`http://localhost:3001/flights/${id}`, formData);
-            navigateTo('/flights');
+            navigateTo('/adminFlights');
         } catch (error) {
             console.error('Error updating flight:', error);
         }

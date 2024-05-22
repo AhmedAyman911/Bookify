@@ -5,8 +5,9 @@ const FlightModel = require('./models/Flight.js')
 const CarModel = require('./models/Cars.js')
 const bcrypt = require('bcrypt')
 const UserModel = require('./models/User.js')
+const CartModel = require('./models/Cart.js')
 const jwt = require('jsonwebtoken');
-
+const HotelModel= require('./models/Hotels.js')
 
 const app = express();
 app.use(express.json());
@@ -281,6 +282,70 @@ app.get('/SearchCars', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+//hotels
+app.get('/getHotels', async (req, res) => {
+    try {
+        const hotels = await HotelModel.find();
+        res.json(hotels);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.post('/addNewHotel', async (req, res) => {
+    const { Name, Photo, Location, Meters, Description, Features, Food, Number, Price, Tax, Rate} = req.body;
+    HotelModel.create({ Name, Photo, Location, Meters, Description, Features, Food, Number, Price, Tax, Rate })
+        .then(hotels => { res.json(hotels); })
+        .catch(err => res.json(err))
+});
+
+app.get('/adminHotels/:id', async (req, res) => {
+    const hotelId = req.params.id;
+    try {
+        const hotels = await HotelModel.findById(hotelId);
+        res.json(hotels);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.put('/editHotels/:id', async (req, res) => {
+    const hotelId = req.params.id;
+    try {
+        const updatedhotel = await HotelModel.findByIdAndUpdate(hotelId, req.body, { new: true });
+        res.json(updatedhotel);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.delete('/adminHotels/:id', async (req, res) => {
+    const hotelId = req.params.id;
+    try {
+        await HotelModel.findByIdAndDelete(hotelId);
+        res.status(204).send();
+    } catch (error) {
+        console.error('Error deleting flight:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+//cart
+app.post('/addtocart', async (req, res) => {
+    const cartItems = req.body;
+    CartModel.insertMany(cartItems)
+      .then(cart => { res.json(cart); })
+      .catch(err => res.json(err))
+  });
+  //get cart all from the database 
+app.get('/cart', async (req, res) => {
+    try {
+        const cart = await CartModel.find();
+        res.json(cart);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});  
+  
 app.listen(3001, () => {
     console.log("server works")
 }); 
