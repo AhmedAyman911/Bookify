@@ -18,12 +18,11 @@ import AddHotels from './components/admin/AdminList/Add';
 import EditHotels from './components/admin/AdminList/Edit';
 import LoginAdmin from './components/admin/LoginFormAdmin'
 import HotelPage from './components/List/hotelPage'
-<<<<<<< HEAD
 import Hotel from './components/List/hotelPage';
 import List from './components/List/List';
-=======
-import Payment from './components/payment'
->>>>>>> 652c283d61076b211a1836b0e2f4a028f1f5a159
+import Payment from './components/payment';
+import Thanks from './components/thankyou/Thankyou';
+
 export default function App() {
   return (
     <Router>
@@ -36,13 +35,11 @@ export default function App() {
           <Route path="/car-rentals" element={<CarRentals />} />
           <Route path="/flights" element={<Flights/>} />
           <Route path="/hotels" element={<Hotels />} />
-<<<<<<< HEAD
           <Route path="/List" element={<List />} />
           <Route path="/hotelPage/:id" element={<Hotel />} />
-=======
           <Route path="/hotelPage" element={<HotelPage />} />
           <Route path="/payment" element={<Payment/>} />
->>>>>>> 652c283d61076b211a1836b0e2f4a028f1f5a159
+          <Route path="/thankyou" element={<Thanks/>} />
           {/*admin routes*/}
           <Route path="/LoginAdmin" element={<LoginAdmin />} />
           <Route path="/editFlight/:id" element={<EditFlight />} />

@@ -16,12 +16,66 @@ import citypic from "../../assets/city.png";
 import coffeepic from "../../assets/coffee-cup.png";
 import balconypic from "../../assets/coffee-shop.png";
 
+import Cart from 'C:/Users/nadin/vscode/Web Project/Bookify/client/src/components/cart/cartt.jsx';
 
+
+
+import { jwtDecode } from "jwt-decode";
 
 
 
 
 const Hotel = () => {
+
+    const [cart, setCart] = useState([]);
+    const [uid, setUserid] = useState('');
+    // Function to decode the JWT token and extract the username
+   const decodeToken = (token) => {
+    try {
+        const decoded = jwtDecode(token);
+        return decoded;
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+  };
+  useEffect(() => {
+    // Check if token exists in localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+        // Decode the token and extract the username
+        const decodedToken = decodeToken(token);
+        
+        if (decodedToken) {
+          setUserid(decodedToken.id);
+        }else{console.log("heeeeeeeeeeeelp")}
+    }
+  }, []);
+   //cart
+   const handleBookCar = (hotel) => {
+    const newCartItem = {
+      uid:uid,
+      item: hotel.Name,
+      date: '12/12/2024',
+      price: '200',
+    };
+  
+    const updatedCart = [...cart, newCartItem];
+    setCart(updatedCart);
+    saveCartToBackend(updatedCart);
+  };
+  
+  const saveCartToBackend = async (updatedCart) => {
+    try {
+      const result = await axios.post('http://localhost:3001/addtocart', updatedCart);
+      console.log('Save to backend result:', result);
+    } catch (err) {
+      console.log('Error saving to backend:', err);
+    }
+  };  
+
+
+
     const { id } = useParams()
     const [hotel, setHotel] = useState()
     useEffect(() => {
@@ -263,7 +317,7 @@ const Hotel = () => {
                             <p className="ml-3">Free parking</p>
                         </div>
 
-                        <button className="mt-3 ml-8 w-48 bg-blue-600 text-white border-none rounded-md text-base cursor-pointer transition duration-300 ease-in-out hover:bg-blue-700">
+                        <button className="mt-3 ml-8 w-48 bg-blue-600 text-white border-none rounded-md text-base cursor-pointer transition duration-300 ease-in-out hover:bg-blue-700 "onClick={()=>handleBookCar(hotel)}>
                             Reserve</button>
 
                     </div>
@@ -272,7 +326,7 @@ const Hotel = () => {
                 </div>
 
             </div>
-
+            <Cart/>
         </div>
 
     );

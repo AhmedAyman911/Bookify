@@ -1,81 +1,113 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const PaymentForm = () => {
     const [formData, setFormData] = useState({
-      firstName: '',
-      lastName: '',
-      country: '',
-      email: '',
-      address: '',
-      paymentMethod: 'visa', // Default to Visa
-      visaInfo: {
-        cvv: '',
-        cardname: '',
-        cardnum: '',
-        exp:''
-      },
-      cashInfo: '' // Placeholder for cash payment details
-    });
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
-    };
-  
-    const handleVisaInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({
-        ...formData,
+        firstName: '',
+        lastName: '',
+        country: '',
+        email: '',
+        address: '',
+        paymentMethod: 'visa', // Default to Visa
         visaInfo: {
-          ...formData.visaInfo,
-          [name]: value
-        }
-      });
+            cvv: '',
+            cardname: '',
+            cardnum: '',
+            exp: ''
+        },
+        cashInfo: '' // Placeholder for cash payment details
+    });
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
-  
+
+    const handleVisaInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            visaInfo: {
+                ...formData.visaInfo,
+                [name]: value
+            }
+        });
+    };
+
     const handleSubmit = (e) => {
-      e.preventDefault();
-      // Handle form submission logic here
-      console.log(formData);
+        e.preventDefault();
+        // Handle form submission logic here
+        console.log(formData);
     };
- 
+
+    const navigate = useNavigate();
+
     return (
-      <div className="">
-          <form onSubmit={handleSubmit}>
-              {formData.paymentMethod === 'visa' && (
-                  <div className=" bg-white mt-12 ml-[450px] w-[700px] h-[650px] border-l-[5px] border-r-[5px] border-t-[5px] border-b-[5px] border-[black] rounded-[80px]">{/*paymentsec*/}
-                      <h2 className="ml-[200px] mt-12 mb-[50px]">Payment Information</h2>
-                      <div className="flex flex-wrap">
-                          <label className="ml-[110px] font-bold text-left text-black">
-                              Name on card:
-                              <br/>
-                              <input placeholder="John Doe" className="w-[150px] p-[10px] mb-[15px] border border-[#ced4da] rounded-[5px] text-[16px] text-[#495057] bg-[#fff]" type="text" name="cardname" value={formData.visaInfo.clientNumber} onChange={handleVisaInputChange}/>
-                          </label>
-                          <label id='cardnum' className="font-bold text-left text-black ml-[150px]" >
-                              Card Number:
-                              <br/>
-                              <input placeholder=" **** **** **** **** ****" className="w-[200px] p-[10px] mb-[15px] border border-[#ced4da] rounded-[5px] text-[16px] text-[#495057] bg-[#fff]" type="text" name="cardNumber" value={formData.visaInfo.cardNumber} onChange={handleVisaInputChange}/>
-                          </label>
-                      </div>
-                      <div className="ml-130 flex flex-wrap">
-                          <label id='cvv' className="font-bold text-left text-black ml-[110px] mt-[20px]">
-                              CVV:
-                              <br/>
-                              <input placeholder="***" className="w-[100px] p-[10px] mb-[15px] border border-[#ced4da] rounded-[5px] text-[16px] text-[#495057] bg-[#fff]" type="text" name="cvv" value={formData.visaInfo.cvv} onChange={handleVisaInputChange}/>
-                          </label>
-                          <label id='exp' className="font-bold text-left text-black ml-[200px] mt-[20px]">
-                              Expiry date:
-                              <br/>
-                              <input placeholder="MM/YYYY" className="w-[100px] p-[10px] mb-[15px] border border-[#ced4da] rounded-[5px] text-[16px] text-[#495057] bg-[#fff]" type="text" name="cvv" value={formData.visaInfo.exp} onChange={handleVisaInputChange}/>
-                          </label>
-                      </div>
-                      
-                      <button type="submit" className="ml-[280px] mt-[100px] hover:bg-indigo-400 m-100 ml-120 w-200 bg-blue-900 text-white border-none rounded-5 p-15 text-lg cursor-pointer transition duration-300 ease-in-out">Submit</button>
-                  </div>
-              )}
-          </form>
-      </div>
-  );
-  
+        <div className="flex justify-center items-center h-screen bg-gradient-to-r from-blue-100 to-blue-300">
+            <form onSubmit={handleSubmit} className="bg-white p-10 rounded-xl shadow-lg w-[700px]">
+                {formData.paymentMethod === 'visa' && (
+                    <div className="flex flex-col items-center">
+                        <h2 className="text-3xl font-bold text-blue-800 mb-8">Payment Information</h2>
+                        <div className="w-full flex flex-wrap justify-between mb-6">
+                            <label className="w-[45%] font-bold text-left text-black">
+                                Name on card:
+                                <input
+                                    placeholder="John Doe"
+                                    className="w-full p-2 mb-4 border border-gray-300 rounded"
+                                    type="text"
+                                    name="cardname"
+                                    value={formData.visaInfo.cardname}
+                                    onChange={handleVisaInputChange}
+                                />
+                            </label>
+                            <label className="w-[45%] font-bold text-left text-black">
+                                Card Number:
+                                <input
+                                    placeholder="**** **** **** ****"
+                                    className="w-full p-2 mb-4 border border-gray-300 rounded"
+                                    type="text"
+                                    name="cardnum"
+                                    value={formData.visaInfo.cardnum}
+                                    onChange={handleVisaInputChange}
+                                />
+                            </label>
+                        </div>
+                        <div className="w-full flex flex-wrap justify-between mb-6">
+                            <label className="w-[45%] font-bold text-left text-black">
+                                CVV:
+                                <input
+                                    placeholder="***"
+                                    className="w-full p-2 mb-4 border border-gray-300 rounded"
+                                    type="text"
+                                    name="cvv"
+                                    value={formData.visaInfo.cvv}
+                                    onChange={handleVisaInputChange}
+                                />
+                            </label>
+                            <label className="w-[45%] font-bold text-left text-black">
+                                Expiry date:
+                                <input
+                                    placeholder="MM/YYYY"
+                                    className="w-full p-2 mb-4 border border-gray-300 rounded"
+                                    type="text"
+                                    name="exp"
+                                    value={formData.visaInfo.exp}
+                                    onChange={handleVisaInputChange}
+                                />
+                            </label>
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-blue-900 text-white px-6 py-3 rounded hover:bg-indigo-400 transition duration-300"
+                            onClick={() => navigate("/thankyou")}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                )}
+            </form>
+        </div>
+    );
 };
 
 export default PaymentForm;

@@ -68,13 +68,9 @@ const LoginForm = () => {
                                 className="w-80 h-12 px-4 bg-transparent outline-none border-2 border-gray-900 rounded-full "
                                 required
                             />
-                            <FaLock className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                            
                         </div>
-                        <div className="mb-6 text-right flex items-center justify-end">
-                            <a href="#" className="text-blue-900 hover:underline">
-                                Forgot Password?
-                            </a>
-                        </div>
+                        
                         <div className="flex items-center justify-center">
                             <button
                                 type="submit"
