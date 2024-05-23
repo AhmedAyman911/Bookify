@@ -1,11 +1,11 @@
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
+import axios from "axios";
 import offerImage from "../../assets/offerpic.jpg";
 import hurghadaImage from "../../assets/Hurghada.jpg";
 import pyramidsImage from "../../assets/pyramids.webp";
-import AinSokhnaImage from "../../assets/AinSokhna.jpg";
+import AinSokhnaImage from "../../assets/barcelona.jpg";
 import sharmImage from "../../assets/sharm.jpg";
-import alexImage from "../../assets/Alexandria.jpg";
+import alexImage from "../../assets/paris.jpg";
 import hotel1Image from "../../assets/hotel1.jpg";
 import hotel2Image from "../../assets/hotel2.jpeg";
 import hotel3Image from "../../assets/hotel3.jpg";
@@ -20,16 +20,28 @@ import car4Image from "../../assets/car2.jpeg";
 import car5Image from "../../assets/car5.jpg";
 //import NavBar from "../navBar";
 const Header = () => {
-    
-    const [selectedDate, setSelectedDate] = useState("");
 
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
-    };
-    const [SelectedDays, setSelectedDays] = useState('');
-    const handleSelectedDays = (event) => {
-        setSelectedDays(event.target.value);
-    };
+
+    const [goOptions, setgoOptions] = useState([]);
+    const [priceOptions, setPriceOptions] = useState([]);
+    const [rateOptions, setRateOptions] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:3001/places')
+      .then(response => setgoOptions(response.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+  useEffect(() => {
+    axios.get('http://localhost:3001/rating')
+      .then(response => setRateOptions(response.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+  useEffect(() => {
+    axios.get('http://localhost:3001/price')
+      .then(response => setPriceOptions(response.data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+
     const [SelectedAdults, setSelectedAdults] = useState('');
     const handleSelectedAdults = (event) => {
         setSelectedAdults(event.target.value);
@@ -45,90 +57,7 @@ const Header = () => {
 
     return (
         <>
-        <div id="custom-header" className="relative">
-            <div id="custom-MainRect" className="relative bg-blue-900 p-8 flex justify-between items-center text-white">
-        <div>
-            <div id="custom-Find" className="text-3xl font-medium">Find your next stay</div>
-            <div id="custom-befsearch" className="text-lg font-serif">Search deals on hotels and much more...</div>
-        </div>
-        <form className="flex items-center">
-        <div className="relative mr-4">
-            <label htmlFor="country" className="block">Where To Go</label>
-            <select
-                id="dropdown"
-                value={Selectedcont}
-                onChange={handleSelectedcont}
-                className="w-40 py-2 px-2 mt-1 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded"
-            >
-                <option value="">Select a country</option>
-                <option value="au">Australia</option>
-                <option value="ca">Canada</option>
-                <option value="usa">USA</option>
-                <option value="au">Hurghada-Egypt (Nearby)</option>
-                <option value="ca">Cairo-Egypt (Nearby)</option>
-                <option value="usa">Alexandria-Egypt (Nearby)</option>
-            </select>
-            </div>
-            <div className="relative mr-4">
-                <label htmlFor="quantity" className="block">Days</label>
-                <select
-                    id="dropdown"
-                    value={SelectedDays}
-                    onChange={handleSelectedDays}
-                    className="w-40 py-2 px-2 mt-1 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded"
-                >
-                    <option value="">Select Days</option>
-                    <option value="option1">1</option>
-                    <option value="option2">2</option>
-                    <option value="option3">3</option>
-                    <option value="option1">4</option>
-                    <option value="option2">5</option>
-                    <option value="option3">6+</option>
-                </select>
-            </div>
-            <div className="relative mr-4">
-                <label htmlFor="adults" className="block">Adults</label>
-                <select
-                    id="dropdown"
-                    value={SelectedAdults}
-                    onChange={handleSelectedAdults}
-                    className="w-40 py-2 px-2 mt-1 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded"
-                >
-                    <option value="">Select Adults</option>
-                    <option value="option1">1</option>
-                    <option value="option2">2</option>
-                    <option value="option3">3</option>
-                    <option value="option4">4+</option>
-                </select>
-            </div>
-            <div className="relative mr-4">
-                <label htmlFor="rooms" className="block">Rooms</label>
-                <select
-                    id="dropdown"
-                    value={SelectedRoom}
-                    onChange={handleSelectedRoom}
-                    className="w-40 py-2 px-2 mt-1 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded"
-                >
-                    <option value="">Select Room</option>
-                    <option value="option1">1</option>
-                    <option value="option2">2</option>
-                    <option value="option3">3</option>
-                    <option value="option4">4+</option>
-                </select>
-            </div>
-            <div className="relative mr-4">
-                <label htmlFor="checkInDate" className="block">Check-In Date</label>
-                <input type="date" id="checkInDate" name="checkInDate" 
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    className="w-40 py-2 px-2 mt-1 text-gray-700 leading-tight focus:outline-none border border-gray-300 rounded" />
-            </div>
-            <div>
-                <label htmlFor="checkInDate" className="block text-blue-900 ">~</label>
-                <button type="submit" className="bg-white text-blue-900 py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-500 hover:text-white transition-colors rounded">Search</button>
-            </div>
-        </form>
-    </div>
+        
 
         <div className=" pl-40 justify-center ">
         <div id="exclusive" className="mt-16">
@@ -173,7 +102,7 @@ const Header = () => {
                     <div className="border rounded-lg overflow-hidden cursor-pointer relative h-60 transition-transform duration-300 hover:scale-110 hover:border-yellow-500">
                         <img src={AinSokhnaImage} alt="AinSokhna" className="w-full h-full object-cover" />
                         <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 flex justify-center items-center text-2xl">
-                            <h2>Ain Sokhna</h2>
+                            <h2>Barcelona</h2>
                         </div>
                     </div>
                 </div>
@@ -191,12 +120,12 @@ const Header = () => {
                     <div className="border rounded-lg overflow-hidden cursor-pointer relative h-60 transition-transform duration-300 hover:scale-110 hover:border-yellow-500">
                         <img src={alexImage} alt="alex" className="w-full h-full object-cover" />
                         <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 flex justify-center items-center text-2xl">
-                            <h2>Alexandria</h2>
+                            <h2>Paris</h2>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
         
 
 

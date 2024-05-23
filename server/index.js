@@ -104,12 +104,10 @@ app.get('/Searchflights', async (req, res) => {
         if (from && from !== 'any') {
             query.from = from;
         }
-
         // Check if 'to' parameter is specified
         if (to && to !== 'any') {
             query.to = to;
         }
-
         const flights = await FlightModel.find(query);
         res.json(flights);
     } catch (err) {
@@ -348,14 +346,91 @@ app.post('/addtocart', async (req, res) => {
       .catch(err => res.json(err))
   });
   //get cart all from the database 
-app.get('/cart', async (req, res) => {
+  app.get('/cart', async (req, res) => {
+    const uid = req.query.uid;
     try {
-        const cart = await CartModel.find();
-        res.json(cart);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const items = await CartModel.find({ uid });
+        res.json(items);
+    } catch (error) {
+        console.error('Error fetching cart items:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
-});  
+});
+//delete item from cart
+app.delete('/cart/:id', async (req, res) => {
+    const itemId = req.params.id;
+    try {
+        await CartModel.findByIdAndDelete(itemId);
+        res.status(204).send();
+    } catch (error) {
+        console.error('Error deleting item:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+// API endpoint to get combined unique values from place fields
+app.get('/places', async (req, res) => {
+    try {
+        const travelData = await HotelModel.find();
+        const locations = new Set();
+        locations.add("any");
+        travelData.forEach(travel => {
+            if (travel.Location) locations.add(travel.Location);
+        });
+        res.json([...locations]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetchinggggggg locations' });
+    }
+}); 
+app.get('/rating', async (req, res) => {
+    try {
+        const travelData = await HotelModel.find();
+        const locations = new Set();
+        locations.add("any");
+        travelData.forEach(travel => {
+            if (travel.Location) locations.add(travel.Rate);
+        });
+        res.json([...locations]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetchinggggggg locations' });
+    }
+});
+app.get('/price', async (req, res) => {
+    try {
+        const travelData = await HotelModel.find();
+        const locations = new Set();
+        locations.add("any");
+        travelData.forEach(travel => {
+            if (travel.Location) locations.add(travel.Price);
+        });
+        res.json([...locations]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetchinggggggg locations' });
+    }
+});
+//search hotels
+app.get('/SearchHotels', async (req, res) => {
+    try {
+        let query = {};
+        const { Location, Rate,Price } = req.query;
+        if (Location && Location !== 'any') {
+            query.Location = Location;
+        }
+        if (Rate && Rate !== 'any') {
+            query.Rate = Rate;
+        }
+        if (Price && Price !== 'any') {
+            query.Price = Price;
+        }
+        const Hotel = await HotelModel.find(query);
+        res.json(Hotel);
+    } catch (err) {
+        console.error('Error fetching filtered Hotels:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
   
 app.listen(3001, () => {
     console.log("server works")
