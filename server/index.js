@@ -292,6 +292,17 @@ app.get('/getHotels', async (req, res) => {
     }
 });
 
+app.get('/getHotel/:id',async(req,res)=>{
+    try{
+        const hotel = await HotelModel.findById(req.params.id)
+
+        if(!hotel) throw new Error("Didn't Find Hotel")
+        res.status(201).json(hotel)
+    }catch(err){
+        res.status(500).json({ message: err.message });
+    }
+})
+
 app.post('/addNewHotel', async (req, res) => {
     const { Name, Photo, Location, Meters, Description, Features, Food, Number, Price, Tax, Rate} = req.body;
     HotelModel.create({ Name, Photo, Location, Meters, Description, Features, Food, Number, Price, Tax, Rate })

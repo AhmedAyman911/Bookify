@@ -18,6 +18,8 @@ import AddHotels from './components/admin/AdminList/Add';
 import EditHotels from './components/admin/AdminList/Edit';
 import LoginAdmin from './components/admin/LoginFormAdmin'
 import HotelPage from './components/List/hotelPage'
+import Hotel from './components/List/hotelPage';
+import List from './components/List/List';
 export default function App() {
   return (
     <Router>
@@ -30,7 +32,8 @@ export default function App() {
           <Route path="/car-rentals" element={<CarRentals />} />
           <Route path="/flights" element={<Flights/>} />
           <Route path="/hotels" element={<Hotels />} />
-          <Route path="/hotelPage" element={<HotelPage />} />
+          <Route path="/List" element={<List />} />
+          <Route path="/hotelPage/:id" element={<Hotel />} />
           {/*admin routes*/}
           <Route path="/LoginAdmin" element={<LoginAdmin />} />
           <Route path="/editFlight/:id" element={<EditFlight />} />

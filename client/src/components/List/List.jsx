@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import "./List.css";
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 
 const List = () => {
+  const navigate = useNavigate();
   const [hotels, setHotels] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://localhost:3001/getHotels')
-      .then(response => setHotels(response.data))
-      .catch(err => console.log(err));
-  }, []);
+  useEffect(()=>{
+    const response = axios.get('http://localhost:3001/getHotels')
+    .then(response => setHotels(response.data))
+    .catch(err => console.log(err));
+  },[])
 
-
- 
-  const handleButtonClick = () => {
-    navigate('/hotelPage');
-  }; 
   return (
     <div className="flex flex-col items-center m-5">
-      <br/>
+      <br />
       {hotels.map((hotel) => (
         <div key={hotel._id} className="List">
           <img
@@ -55,25 +56,22 @@ const List = () => {
             <div className="siDetailTexts">
               <span className="siPrice">{hotel.Price}</span>
               <span className="siTaxOp">{hotel.Tax}</span>
-              <button className="siCheckButton" onClick={handleButtonClick} >See availability</button>
+              <button className="siCheckButton" onClick={() => {
+                navigate(`/hotelPage/${hotel._id}`)
+              }}>See availability</button>
             </div>
           </div>
         </div>
       ))}
     </div>
   );
-};
+}
 
-const ListContainer = () => {
-  return (
-    <div>
-      <List />
-      {/* <List />
-      <List />
-      <List />
-      <List /> */}
-    </div>
-  );
-};
 
-export default ListContainer;
+
+
+
+
+
+
+export default List;
