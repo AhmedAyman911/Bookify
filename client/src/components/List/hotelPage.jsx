@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 //import './hotelPageStyle.css';
 import axios from "axios"
@@ -15,8 +15,7 @@ import lakepic from "../../assets/lake.png";
 import citypic from "../../assets/city.png";
 import coffeepic from "../../assets/coffee-cup.png";
 import balconypic from "../../assets/coffee-shop.png";
-
-import Cart from 'C:/Users/nadin/vscode/Web Project/Bookify/client/src/components/cart/cartt.jsx';
+import Cart from '../../components/cart/cartt';
 
 
 
@@ -328,7 +327,6 @@ const Hotel = () => {
             </div>
             <Cart/>
         </div>
-
     );
 }
 export default Hotel;
