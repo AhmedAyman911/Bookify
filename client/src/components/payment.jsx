@@ -31,8 +31,6 @@ const PaymentForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
-        // Add logic to handle form submission
-        // Example: navigate to a success page
         navigate("/thankyou");
     };
 
