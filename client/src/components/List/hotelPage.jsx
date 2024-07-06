@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-//import './hotelPageStyle.css';
 import axios from "axios"
-
 import buspic from "../../assets/bus.png";
 import carpic from "../../assets/car.png";
 import poolpic from "../../assets/swim.png";
@@ -16,62 +14,63 @@ import citypic from "../../assets/city.png";
 import coffeepic from "../../assets/coffee-cup.png";
 import balconypic from "../../assets/coffee-shop.png";
 import Cart from '../../components/cart/cartt';
-
-
-
 import { jwtDecode } from "jwt-decode";
-
-
-
+import { Alert, Snackbar } from '@mui/material';
 
 const Hotel = () => {
 
     const [cart, setCart] = useState([]);
     const [uid, setUserid] = useState('');
     // Function to decode the JWT token and extract the username
-   const decodeToken = (token) => {
-    try {
-        const decoded = jwtDecode(token);
-        return decoded;
-    } catch (error) {
-        console.error('Error decoding token:', error);
-        return null;
-    }
-  };
-  useEffect(() => {
-    // Check if token exists in localStorage
-    const token = localStorage.getItem('token');
-    if (token) {
-        // Decode the token and extract the username
-        const decodedToken = decodeToken(token);
-        
-        if (decodedToken) {
-          setUserid(decodedToken.id);
-        }else{console.log("heeeeeeeeeeeelp")}
-    }
-  }, []);
-   //cart
-   const handleBookCar = (hotel) => {
-    const newCartItem = {
-      uid:uid,
-      item: hotel.Name,
-      date: '12/12/2024',
-      price: '200',
+    const decodeToken = (token) => {
+        try {
+            const decoded = jwtDecode(token);
+            return decoded;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
     };
-  
-    const updatedCart = [...cart, newCartItem];
-    setCart(updatedCart);
-    saveCartToBackend(updatedCart);
-  };
-  
-  const saveCartToBackend = async (updatedCart) => {
-    try {
-      const result = await axios.post('http://localhost:3001/addtocart', updatedCart);
-      console.log('Save to backend result:', result);
-    } catch (err) {
-      console.log('Error saving to backend:', err);
-    }
-  };  
+    useEffect(() => {
+        // Check if token exists in localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Decode the token and extract the username
+            const decodedToken = decodeToken(token);
+
+            if (decodedToken) {
+                setUserid(decodedToken.id);
+            } else { console.log("heeeeeeeeeeeelp") }
+        }
+    }, []);
+    //cart
+    const handleBook = (hotel) => {
+        if (!uid) {
+            console.log("User is not logged in. Please log in to book a room.");
+            setAlertOpen(true);
+        } else {
+            setAlertOpen2(true);
+            const newCartItem = {
+                uid: uid,
+                item: hotel.Name,
+                date: '',
+                price: hotel.Price,
+            };
+
+            const updatedCart = [...cart, newCartItem];
+            setCart(updatedCart);
+            saveCartToBackend(newCartItem);
+        }
+    };
+
+    const saveCartToBackend = async (updatedCart) => {
+        try {
+            const result = await axios.post('http://localhost:3001/addtocart', updatedCart);
+            console.log('Save to backend result:', result);
+        } catch (err) {
+            console.log('Error saving to backend:', err);
+        }
+    };
 
 
 
@@ -86,12 +85,31 @@ const Hotel = () => {
             .catch(err => console.log(err));
     }, [id]);
 
+    const [alertOpen, setAlertOpen] = useState(false);
+    const handleClose = () => {
+        setAlertOpen(false);
+    };
+    const [alertOpen2, setAlertOpen2] = useState(false);
+    const handleClose2 = () => {
+        setAlertOpen2(false);
+    };
+
     if (!hotel) return <div>Loading...</div>;
+
     return (
 
         <div className="ml-28">
 
-
+            <Snackbar open={alertOpen} autoHideDuration={3000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    User is not logged in. Please log in to Book a Hotel.
+                </Alert>
+            </Snackbar>
+            <Snackbar open={alertOpen2} autoHideDuration={3000} onClose={handleClose2}>
+                <Alert onClose={handleClose2} severity="success" sx={{ width: '100%' }}>
+                    Added to Cart.
+                </Alert>
+            </Snackbar>
             <h2 className="text-left ml-24 mt-10 mb-5 font-bold">{hotel.Name}</h2>
 
             <div className='allImages'>
@@ -111,17 +129,17 @@ const Hotel = () => {
                         {/* review box */}
 
                         <h5 className="text-3xl font-bold mb-2 text-center mt-3">Rating:</h5>
-                       
-                        <p style={{  width: '60px', border: '2px solid #003B95',borderRadius: '10px', marginLeft: '115px', color: 'white', border: '10px solid #003B95',  backgroundColor: '#003B95' }}
-                        className="text-3xl text-left mt-4 mb-2 font-bold">
-                        {hotel.Rate}
+
+                        <p style={{ width: '60px', borderRadius: '10px', marginLeft: '115px', color: 'white', border: '10px solid #003B95', backgroundColor: '#003B95' }}
+                            className="text-3xl text-left mt-4 mb-2 font-bold">
+                            {hotel.Rate}
                         </p>
 
 
 
-                        <p style={{marginLeft: '90px', color: '#003B95'}} className="text-2xl text-left mt-2 mb-16 font-bold">{hotel.Rating_e}</p>
+                        <p style={{ marginLeft: '90px', color: '#003B95' }} className="text-2xl text-left mt-2 mb-16 font-bold">{hotel.Rating_e}</p>
                         <h5 className="text-2xl font-bold mb-2 text-center mt-6">Number of positive reviews:</h5>
-                        <p style={{marginLeft: '80px', color: '#003B95'}} className="text-2xl text-left mt-4 mb-2 font-bold text-yellow-500">{hotel.Rating_r}</p>
+                        <p style={{ marginLeft: '80px', color: '#003B95' }} className="text-2xl text-left mt-4 mb-2 font-bold text-yellow-500">{hotel.Rating_r}</p>
 
                     </div>
 
@@ -240,12 +258,12 @@ const Hotel = () => {
             <div className="mt-32 flex">
 
                 <div className=" w-[800px]">
-                    <p className="ml-24 mr-26"> You're eligible for a Genius discount at Palm Inn Suites Hotel! To save at this property, all you have to do is sign in.
+                    <p className="ml-24 mr-26"> You`re eligible for a Genius discount at Palm Inn Suites Hotel! To save at this property, all you have to do is sign in.
                         Facing the beachfront, Palm Inn Suites Hotel offers 4-star accommodation in Hurghada and has an outdoor swimming
                         <br /> pool, shared lounge and terrace. The property features a bar, as well as a restaurant serving Italian cuisine.
                         <br />
                         <br />
-                        The accommodation features a 24-hour front desk, airport transfers, a kids' club and free WiFi.
+                        The accommodation features a 24-hour front desk, airport transfers, a kids` club and free WiFi.
 
                         The hotel will provide guests
                         with air-conditioned rooms offering a wardrobe, a kettle, a fridge, a minibar, a safety deposit box, a flat-screen TV,
@@ -275,7 +293,7 @@ const Hotel = () => {
                     <div className='pl-5'>
                         <h3 className="text-xl font-bold">Property highlights</h3>
                         <h4 className="text-lg font-bold mt-6 mb-3">Breakfast Info</h4>
-                        <p m-1 p-1 text-base>Continental, Italian, Full English/Irish, Vegetarian,
+                        <p className=' m-1 p-1 text-base'>Continental, Italian, Full English/Irish, Vegetarian,
                             Halal, American, Buffet.</p>
 
                         <h4 className="text-lg font-bold mt-6 mb-3">Rooms with:</h4>
@@ -316,8 +334,13 @@ const Hotel = () => {
                             <p className="ml-3">Free parking</p>
                         </div>
 
-                        <button className="mt-3 ml-8 w-48 bg-blue-600 text-white border-none rounded-md text-base cursor-pointer transition duration-300 ease-in-out hover:bg-blue-700 "onClick={()=>handleBookCar(hotel)}>
-                            Reserve</button>
+                        <button
+                            className="mt-3 ml-8 w-48 px-4 py-2 bg-blue-600 text-white border-none rounded-md text-base cursor-pointer transition duration-300 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg"
+                            onClick={() => handleBook(hotel)}
+                        >
+                            Reserve
+                        </button>
+
 
                     </div>
 
@@ -325,7 +348,7 @@ const Hotel = () => {
                 </div>
 
             </div>
-            <Cart/>
+            <Cart />
         </div>
     );
 }

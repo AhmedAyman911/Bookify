@@ -1,5 +1,3 @@
-import { useState,useEffect } from "react";
-import axios from "axios";
 import offerImage from "../../assets/offerpic.jpg";
 import hurghadaImage from "../../assets/Hurghada.jpg";
 import pyramidsImage from "../../assets/pyramids.webp";
@@ -18,42 +16,9 @@ import car1Image from "../../assets/car1.avif";
 import car2Image from "../../assets/car2.webp";
 import car4Image from "../../assets/car2.jpeg";
 import car5Image from "../../assets/car5.jpg";
-//import NavBar from "../navBar";
 const Header = () => {
 
 
-    const [goOptions, setgoOptions] = useState([]);
-    const [priceOptions, setPriceOptions] = useState([]);
-    const [rateOptions, setRateOptions] = useState([]);
-  useEffect(() => {
-    axios.get('http://localhost:3001/places')
-      .then(response => setgoOptions(response.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-  useEffect(() => {
-    axios.get('http://localhost:3001/rating')
-      .then(response => setRateOptions(response.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-  useEffect(() => {
-    axios.get('http://localhost:3001/price')
-      .then(response => setPriceOptions(response.data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-
-    const [SelectedAdults, setSelectedAdults] = useState('');
-    const handleSelectedAdults = (event) => {
-        setSelectedAdults(event.target.value);
-    };
-    const [Selectedcont, setSelectedcont] = useState('');
-    const handleSelectedcont = (event) => {
-        setSelectedcont(event.target.value);
-    };
-    const [SelectedRoom, setSelectedRoom] = useState('');
-    const handleSelectedRoom = (event) => {
-        setSelectedRoom(event.target.value);
-    };
 
     return (
         <>

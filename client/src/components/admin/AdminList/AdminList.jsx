@@ -58,7 +58,7 @@ const List = () => {
               <button>{hotel.Rate}</button>
             </div>
             <div className="siDetailTexts">
-              <span className="siPrice">{hotel.Price}</span>
+              <span className="siPrice">${hotel.Price}</span>
               <span className="siTaxOp">{hotel.Tax}</span>
               <div>
               <div className="iconRow">

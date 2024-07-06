@@ -4,7 +4,8 @@ import { GoArrowSwitch, GoArrowRight } from 'react-icons/go';
 import axios from 'axios';
 import Cart from '../components/cart/cartt'
 import { jwtDecode } from "jwt-decode";
- 
+import { Alert, Snackbar } from '@mui/material';
+
 const SearchComponent = ({
   selectOption1,
   selectOption2,
@@ -73,28 +74,29 @@ SearchComponent.propTypes = {
 
 const Card = () => {
   const [uid, setUserid] = useState('');
+
   // Function to decode the JWT token and extract the username
- const decodeToken = (token) => {
-  try {
+  const decodeToken = (token) => {
+    try {
       const decoded = jwtDecode(token);
       return decoded;
-  } catch (error) {
+    } catch (error) {
       console.error('Error decoding token:', error);
       return null;
-  }
-};
-useEffect(() => {
-  // Check if token exists in localStorage
-  const token = localStorage.getItem('token');
-  if (token) {
+    }
+  };
+  useEffect(() => {
+    // Check if token exists in localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
       // Decode the token and extract the username
       const decodedToken = decodeToken(token);
-      
+
       if (decodedToken) {
         setUserid(decodedToken.id);
-      }else{console.log("heeeeeeeeeeeelp")}
-  }
-}, []);
+      } else { console.log("heeeeeeeeeeeelp") }
+    }
+  }, []);
 
 
   const [filteredData, setFilteredData] = useState([]);
@@ -134,19 +136,21 @@ useEffect(() => {
   const handleBookFlight = (flight) => {
     if (!uid) {
       console.log("User is not logged in. Please log in to book a flight.");
-      return;
-    }else{
-    const newCartItem = {
-      uid:uid,
-      item: flight.flightName,
-      date: flight.date,
-      price: flight.price,
-    };
+      setAlertOpen(true);
+    } else {
+      setAlertOpen2(true);
+      const newCartItem = {
+        uid: uid,
+        item: flight.flightName,
+        date: flight.date,
+        price: flight.price,
+      };
 
-    const updatedCart = [...cart, newCartItem];
-    setCart(updatedCart);
-    saveCartToBackend(updatedCart);
-  }};
+      const updatedCart = [...cart, newCartItem];
+      setCart(updatedCart);
+      saveCartToBackend(newCartItem);
+    }
+  };
 
   const saveCartToBackend = async (updatedCart) => {
     try {
@@ -155,9 +159,9 @@ useEffect(() => {
     } catch (err) {
       console.log('Error saving to backend:', err);
     }
-  };  
+  };
 
-  
+
 
   const handleSelectOption1Change = (e) => setSelectOption1(e.target.value);
   const handleSelectOption2Change = (e) => setSelectOption2(e.target.value);
@@ -165,6 +169,14 @@ useEffect(() => {
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchFilteredData();
+  };
+  const [alertOpen, setAlertOpen] = useState(false);
+  const handleClose = () => {
+    setAlertOpen(false);
+  };
+  const [alertOpen2, setAlertOpen2] = useState(false);
+  const handleClose2 = () => {
+    setAlertOpen2(false);
   };
 
   return (
@@ -176,13 +188,13 @@ useEffect(() => {
         onSelectOption2Change={handleSelectOption2Change}
         onSubmit={handleSubmit}
       />
-      {filteredData.map((flight) => (
+      {filteredData.length > 0 ? filteredData.map((flight) => (
         <div key={flight._id} className="max-w-md mx-auto bg-white shadow-md rounded-md overflow-hidden m-5 transition duration-300 ease-in-out transform hover:shadow-xl hover:-translate-y-1">
           <img className="w-full h-64 object-cover" src={flight.photo} alt={flight.flightName} />
           <div className="p-4">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">{flight.flightName}</h2>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={()=>handleBookFlight(flight)}>
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={() => handleBookFlight(flight)}>
                 Book
               </button>
             </div>
@@ -203,7 +215,20 @@ useEffect(() => {
             </div>
           </div>
         </div>
-      ))}
+      )): (
+
+        <p className="text-center mt-4">No Flights found based on your criteria.</p>
+    )}
+      <Snackbar open={alertOpen} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          User is not logged in. Please log in to book a flight.
+        </Alert>
+      </Snackbar>
+      <Snackbar open={alertOpen2} autoHideDuration={3000} onClose={handleClose2}>
+        <Alert onClose={handleClose2} severity="success" sx={{ width: '100%' }}>
+          Added to Cart.
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
@@ -212,7 +237,7 @@ const Flights = () => {
   return (
     <div>
       <Card />
-      <Cart/>
+      <Cart />
     </div>
   );
 };

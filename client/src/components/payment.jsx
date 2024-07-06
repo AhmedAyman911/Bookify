@@ -17,12 +17,6 @@ const PaymentForm = () => {
         },
         cashInfo: '' // Placeholder for cash payment details
     });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
     const handleVisaInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -36,8 +30,10 @@ const PaymentForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
         console.log(formData);
+        // Add logic to handle form submission
+        // Example: navigate to a success page
+        navigate("/thankyou");
     };
 
     const navigate = useNavigate();
@@ -58,6 +54,7 @@ const PaymentForm = () => {
                                     name="cardname"
                                     value={formData.visaInfo.cardname}
                                     onChange={handleVisaInputChange}
+                                    required  // Required field
                                 />
                             </label>
                             <label className="w-[45%] font-bold text-left text-black">
@@ -69,6 +66,7 @@ const PaymentForm = () => {
                                     name="cardnum"
                                     value={formData.visaInfo.cardnum}
                                     onChange={handleVisaInputChange}
+                                    required  // Required field
                                 />
                             </label>
                         </div>
@@ -82,6 +80,7 @@ const PaymentForm = () => {
                                     name="cvv"
                                     value={formData.visaInfo.cvv}
                                     onChange={handleVisaInputChange}
+                                    required  // Required field
                                 />
                             </label>
                             <label className="w-[45%] font-bold text-left text-black">
@@ -93,13 +92,13 @@ const PaymentForm = () => {
                                     name="exp"
                                     value={formData.visaInfo.exp}
                                     onChange={handleVisaInputChange}
+                                    required  // Required field
                                 />
                             </label>
                         </div>
                         <button
                             type="submit"
                             className="bg-blue-900 text-white px-6 py-3 rounded hover:bg-indigo-400 transition duration-300"
-                            onClick={() => navigate("/thankyou")}
                         >
                             Submit
                         </button>
