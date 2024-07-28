@@ -1,4 +1,4 @@
-to run server side:
+To run server side:
 
 cd server
 
