@@ -6,7 +6,9 @@ npm install
 
 npm start
 
-to run client side:
+To run client side:
+
+cd client
 
 npm install
 
